@@ -8,6 +8,6 @@ Additional features currently in development include:
 
 
 Tool stack:
-Python
-Tkinter
+Python,
+Tkinter,
 PostgresSQL
