@@ -130,10 +130,6 @@ class Course:
 
         return value / len(self.students)
 
-    # I realised a lesson in abstraction tonight. 14th December 2021
-    # The clue is to look for those functions that have barely any interaction within them with other parts like the database etc 
-    # will abstract this function. create module student.py which is the class you already wrote, get position will take 3 args self, score(float), scorelist(list) 
-    
 # calculate each student's position in class
     def get_position(self, score, score_list):
         """
@@ -188,7 +184,7 @@ class Course:
                     i+=1
                     score_dict[i] = [scores[0]]
                     scores.remove(scores[0])
-            """        
+            """
             The position location phase of this function starts here. It uses the dictionary keys to identify position of score
             If score is in first dictionary list, position = first,
             If score is in second, position = first key + length of previous list and so on

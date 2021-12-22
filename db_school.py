@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Dec  3 11:48:00 2021
-
-@author: KAIZEN
-"""
 
 import sqlite3
 
