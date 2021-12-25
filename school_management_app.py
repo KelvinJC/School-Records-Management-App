@@ -11,8 +11,6 @@ from student import Course
 db = Database('school.db')
 ca = Course('Computer Appreciation')
 
-LARGE_FONT = ("Calibri", 12)
-
 class SRMSApp(tk.Tk):
 
     def __init__(self, *args, **kwargs):
@@ -52,7 +50,7 @@ class StartPage(tk.Frame):
         tk.Frame.__init__(self, parent)
 
         # Image import
-        self.img = Image.open("pexels-olenka-sergienko-3646172.jpg")
+        self.img = Image.open("alexandre-van-thuan-mr9FouttLGY-unsplash.jpg")
         self.img = self.img.resize((1348,698))
 
         # There is the need to specify the master tk instance since ImageTK is a second instance of tkinter
@@ -66,57 +64,79 @@ class StartPage(tk.Frame):
         self.my_canvas.create_image(0,0, image=self.img, anchor='nw')
 
         # Add label
-        self.my_canvas.create_text(180, 330, text = 'SRMS 1.0', font=("Arial black", 40, 'bold italic'), fill='white')
+        self.my_canvas.create_text(180, 250, text = 'SRMS 1.0', font=("Arial black", 40, 'bold italic'), fill='white')
+        self.my_canvas.create_text(120, 285, text = 'All your records at the touch of a button.', font=("Arial black", 10), fill='white', anchor='nw')
 
         # Add buttons
-        login_button = ttk.Button(self, text = 'Login', width = 15, command=lambda: controller.show_frame(Login))
-        register_button = ttk.Button(self, text = 'Register', width = 15, command=lambda: controller.show_frame(SignUp))
+        login_button = ttk.Button(self, text = 'Login', width = 25, command=lambda: controller.show_frame(Login))
+        register_button = ttk.Button(self, text = 'Register', width = 25, command=lambda: controller.show_frame(SignUp))
+        # Button windows
+        login_button_window = self.my_canvas.create_window(500, 350, anchor= 'nw', window=login_button)
+        register_button_window = self.my_canvas.create_window(700, 350, anchor= 'nw', window=register_button)
 
-        login_button_window = self.my_canvas.create_window(500, 400, anchor= 'nw', window=login_button)
-        register_button_window = self.my_canvas.create_window(650, 400, anchor= 'nw', window=register_button)
+        '''
+        # Binding
+        self.bind('<Configure>', self.resizer)
+
+    def resizer(self, e):
+        # Open our image
+        self.bg1 = Image.open("pexels-olenka-sergienko-3646172.jpg")
+        # Resize the image
+        self.resized_bg = self.bg1.resize((e.width, e.height), Image.ANTIALIAS)
+        # Define our image again
+        self.new_img = ImageTk.PhotoImage(self.resized_bg)
+        # Add it back to the canvas
+        self.my_canvas.create_image(0,0, image=self.new_img, anchor='nw')
+        # Add text back
+        self.my_canvas.create_text(180, 330, text = 'SRMS 1.0', font=("Arial black", 40, 'bold italic'), fill='white')
+
+        '''
 
 class SignUp(tk.Frame):
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
-        #tk.Frame.geometry(self,'400x600') # Need to find a way to resize screen at this point or fill it with interesting backdrop
+
+        # Image import
+        self.img = Image.open("alexandre-van-thuan-DPwd8uWFb0k-unsplash.jpg")
+        self.img = self.img.resize((1348,698))
+
+        # There is the need to specify the master tk instance since ImageTK is a second instance of tkinter
+        self.img = ImageTk.PhotoImage(self.img, master=self)
+        # Define canvas
+        self.my_canvas = tk.Canvas(self, width=1350, height=700)
+        self.my_canvas.grid(row=0, column = 0)
+        # Put the image on the canvas
+        self.my_canvas.create_image(0,0, image=self.img, anchor='nw')
+        # Add label
+        self.my_canvas.create_text(450, 208, text = 'Enter your username or ID.', font=("Arial black", 12, 'italic'), fill='white', anchor='nw')
+        self.my_canvas.create_text(450, 278, text = 'Enter your password.', font=("Arial black", 12, 'italic'), fill='white', anchor='nw')
+        self.my_canvas.create_text(450, 348, text = 'Retype password.', font=("Arial black", 12, 'bold italic'), fill='white', anchor='nw')
 
         # Variables
         self.temp_username = tk.StringVar()
         self.temp_password = tk.StringVar()
         self.temp_confirm_password = tk.StringVar()
-
-
-        # Labels
-        label = tk.Label(self, text='REGISTRATION PAGE', font=('Calibri', 14, 'bold italic'))
-        label.grid(row=0,sticky=tk.W, pady=10, padx=10) # can be replaced with grid if there's more content on the page
-        label2 = tk.Label(self, text='Username', font=('Calibri', 12))
-        label2.grid(row=2, sticky=tk.W, padx=10)
-        label3 = tk.Label(self, text='Password', font=('Calibri', 12))
-        label3.grid(row=3, sticky=tk.W, padx=10)
-        label4 = tk.Label(self, text='Confirm Password', font=('Calibri', 12))
-        label4.grid(row=4, sticky=tk.W, padx=10)
-
-        # Entry
-        self.username_entry = tk.Entry(self, textvariable=self.temp_username)
-        self.username_entry.grid(row=2, column=1)
-        self.password_entry = tk.Entry(self, textvariable=self.temp_password, show='*')
-        self.password_entry.grid(row=3, column=1)
-        self.confirm_password_entry = tk.Entry(self, textvariable=self.temp_confirm_password, show='*')
-        self.confirm_password_entry.grid(row=4, column=1)
+       # Add entry
+        self.username_entry = tk.Entry(self, textvariable=self.temp_username, font=('Helvetica', 18), width=30, fg="#336d92", bd=0)
+        self.password_entry = tk.Entry(self, textvariable=self.temp_password, show='*', font=('Helvetica', 18), width=30, fg="#336d92", bd=0)
+        self.confirm_password_entry = tk.Entry(self, textvariable=self.temp_confirm_password, show='*', font=('Helvetica', 18), width=30, fg="#336d92", bd=0)
 
         # Buttons
-        button1=ttk.Button(self, text='Register', width=15,
+        sign_up_button=tk.Button(self, text='CREATE ACCOUNT', font=('Calibri', 12, 'bold'), width=48, height=2,
                           command=self.register)
-        button1.grid(row=6,sticky=tk.N, pady=10)
-
-        button2=ttk.Button(self, text='Back to Home', width=15,
-                          command=lambda: controller.show_frame(StartPage))
-        button2.grid(row=7,sticky=tk.N, pady=10)
-
-        button3=ttk.Button(self, text='Login', width=15,
+        login_button=ttk.Button(self, text='Login', width=20,
                           command=lambda: controller.show_frame(Login))
-        button3.grid(row=8,sticky=tk.N, pady=10)
+        back_to_home_button=ttk.Button(self, text='Back to Home', width=20,
+                          command=lambda: controller.show_frame(StartPage))
+
+        # Create button windows
+        username_entry_window = self.my_canvas.create_window(450, 230, anchor= 'nw', window=self.username_entry)
+        pw_entry_window = self.my_canvas.create_window(450, 300, anchor= 'nw', window=self.password_entry)
+        confirm_pw_entry_window = self.my_canvas.create_window(450, 370, anchor= 'nw', window=self.confirm_password_entry)
+        sign_up_button_window = self.my_canvas.create_window(450, 440, anchor= 'nw', window=sign_up_button)
+        login_button_window = self.my_canvas.create_window(1000, 50, anchor= 'nw', window=login_button)
+        back_to_home_button_window = self.my_canvas.create_window(1150, 50, anchor= 'nw', window=back_to_home_button)
 
     def register(self):
         # Validation
@@ -151,57 +171,58 @@ class Login(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
 
+        # Image import
+        self.img = Image.open("pexels-olenka-sergienko-3646172.jpg")
+        self.img = self.img.resize((1348,698))
+        # There is the need to specify the master tk instance since ImageTK is a second instance of tkinter
+        self.img = ImageTk.PhotoImage(self.img, master=self)
+        # Define canvas
+        self.my_canvas = tk.Canvas(self, width=1350, height=700)
+        self.my_canvas.grid(row=0, column = 0)
+
+        # Put the image on the canvas
+        self.my_canvas.create_image(0,0, image=self.img, anchor='nw')
+
+        # Add label
+        self.my_canvas.create_text(450, 208, text = 'Enter your username or ID.', font=("Arial black", 12, 'bold italic'), fill='white', anchor='nw')
+        self.my_canvas.create_text(450, 278, text = 'Enter your password.', font=("Arial black", 12, 'bold italic'), fill='white', anchor='nw')
+
         # Variables
         self.temp_login_name = tk.StringVar()
         self.temp_login_password = tk.StringVar()
         self.login_name = ''
         self.login_attempt = 0
 
-        # Labels
-        label = tk.Label(self, text='Login', font=('Calibri', 10))
-        #label.pack(pady=10, padx=10) # can be replaced with grid if there's more content on the page
-        tk.Label(self, text = 'Login to your account', font=('Calibri', 12)).grid(row=0, sticky=tk.N, pady=10)
-        tk.Label(self, text = 'Username', font=('Calibri', 12)).grid(row=1, sticky=tk.W)
-        tk.Label(self, text = 'Password', font=('Calibri', 12)).grid(row=2, sticky=tk.W)
-        login_notif = tk.Label(self, font=('Calibri', 12))
-        login_notif.grid(row=4, sticky=tk.N)
-
-        # Entry
-        self.username_entry1 = tk.Entry(self, textvariable=self.temp_login_name)
-        self.username_entry1.grid(row=1, column=1, padx=5)
-        self.password_entry1 = tk.Entry(self, textvariable=self.temp_login_password, show='*')
-        self.password_entry1.grid(row=2, column=1, padx=5)
+        # Add entry
+        self.username_entry1 = tk.Entry(self, textvariable=self.temp_login_name, font=('Helvetica', 18), width=30, fg="#336d92", bd=0)
+        self.password_entry1 = tk.Entry(self, textvariable=self.temp_login_password, show='*', font=('Helvetica', 18), width=30, fg="#336d92", bd=0)
 
         # Buttons
-        button1 = tk.Button(self, text = 'Login', font=('Calibri', 12), width=10,
+        login_button = tk.Button(self, text = 'SIGN IN', font=('Calibri', 12, 'bold'), width=48, height=2,
                             command= lambda : controller.show_frame(Dashboard) if self.verify_login() == 1 else messagebox.showerror('', 'Login Unsuccessful.'))#self.verify_login)
-        button1.grid(row=3, column = 1, sticky=tk.N, pady=15)
-
-        button2=ttk.Button(self, text='Back to Home',
+        back_to_home_button=ttk.Button(self, text='Back to Home', width=20,
                           command=lambda: controller.show_frame(StartPage))
-        button2.grid(row=4, column = 1, sticky=tk.N, pady=15)
-
-        button3=ttk.Button(self, text='Back to Sign Up',
+        sign_up_button=ttk.Button(self, text='Sign Up', width=20,
                           command=lambda: controller.show_frame(SignUp))
-        button3.grid(row=5, column = 1, sticky=tk.N, pady=15)
 
-
-        # Add entry
-        '''
-        username_entry = tk.Entry(self, font=('Helvetica', 24), width=14, fg="336d92", bd=0)
-        pw_entry = tk.Entry(self, font=('Helvetica', 24), width=14, fg="336d92", bd=0)
-        '''
         # Create button windows
-        '''
-        username_entry_window = my_canvas.create_window(10, 180, anchor= 'nw', window=username_entry)
-        pw_entry_window = my_canvas.create_window(120, 180, anchor= 'nw', window=pw_entry)
-        '''
+        username_entry_window = self.my_canvas.create_window(450, 230, anchor= 'nw', window=self.username_entry1)
+        pw_entry_window = self.my_canvas.create_window(450, 300, anchor= 'nw', window=self.password_entry1)
+        login_button_window = self.my_canvas.create_window(450, 400, anchor= 'nw', window=login_button)
+        sign_up_button_window = self.my_canvas.create_window(1000, 50, anchor= 'nw', window=sign_up_button)
+        back_to_home_button_window = self.my_canvas.create_window(1150, 50, anchor= 'nw', window=back_to_home_button)
+
     def verify_login(self):
         # check if login username entry matches username and if login password entry matches password
         with open("single user", "r") as file:
             file_data = file.read()
 
         file_data = file_data.split('\n')
+
+# I stopped here last night.
+# Remember to see how you can prep for full school records not just for the Computer teacher.
+# Learn dropdown menus for use in account dashboard
+# or cascade to pick subject and class
 
         # Validation
         if self.temp_login_name.get() == '' or self.temp_login_password.get() == '':
@@ -217,6 +238,7 @@ class Login(tk.Frame):
                 messagebox.showerror('Password Error', 'Incorrect password.')
                 # clear user's entries from input bar after message popup button is clicked
                 self.clear_entry()
+                return
         else:
             messagebox.showerror('Account Error', 'No account found!')
             # clear user's entries from input bar after message popup button is clicked
@@ -232,7 +254,7 @@ class Dashboard(tk.Frame):
         tk.Frame.__init__(self, parent)
 
         # Image import
-        self.img = Image.open("pexels-katerina-holmes-5905445.jpg")
+        self.img = Image.open("pexels-element-digital-1370296.jpg")
         self.img = self.img.resize((1348,698))
 
         # There is the need to specify the master tk instance since ImageTK is a second instance of tkinter
@@ -250,10 +272,8 @@ class Dashboard(tk.Frame):
         my_canvas.create_text(850, 130, text = 'Welcome '+self.get_name()+'!', font=("Arial black", 18, 'bold italic'), fill='green', anchor= 'nw')
 
         # Add buttons
-        # Buttons
         button1 = tk.Button(self, text='Student Report Dashboard', font=('Calibri', 12), width=23, command = lambda: controller.show_frame(StudentDetails))
         button2 = tk.Button(self, text="Class Report Dashboard", font=('Calibri', 12), width=23, command=lambda: controller.show_frame(ClassDetails))
-
         # Create button windows
         button1_window = my_canvas.create_window(50, 260, anchor= 'nw', window=button1)
         button2_window = my_canvas.create_window(310, 260, anchor= 'nw', window=button2)
@@ -369,9 +389,9 @@ class StudentDetails(tk.Frame):
 
     def populate_list(self):
         self.students_list.delete(0, tk.END)
+        # prin = ''
         for row in db.fetch():
             self.students_list.insert(tk.END, row) # To remove the curly brackets, 'row' can be replaced with something like (str(row[0]) +'  '+ str(row[2]))
-
 
     def select_item(self, event):
         try:
@@ -442,7 +462,6 @@ class StudentDetails(tk.Frame):
         db.update(self.selected_item[0], self.course_text.get(), self.student_text.get(), self.gender_text.get(),
                   self.test1_text.get(), self.test2_text.get(), self.project_text.get(), self.exam_text.get(),
                   self.calculate_total_score(), ca.get_position(self.selected_item[8], self.score_lister()))
-        # self.populate_list()
 
         # update all positions in student's records
         for row in db.fetch():
@@ -483,6 +502,21 @@ class ClassDetails(tk.Frame):
         avg_score_female_value_label =  tk.Label(self, text=str(self.avg_score_female()), font=('Calibri', 12))
         avg_score_female_value_label.grid(row=4, column=4, sticky=tk.N)
 
+         # Navigation
+        button1=ttk.Button(self, text='Student Reports', width=20,
+                          command=lambda: controller.show_frame(StudentDetails))
+        button1.grid(row=0, column=5, pady=(10, 0), padx=(0, 5))
+
+        home_button=ttk.Button(self, text='Back to Home', width=15,
+                          command=lambda: controller.show_frame(StartPage))
+        home_button.grid(row=0, column=6, pady=(10, 0))
+
+
+        refresh_button = tk.Button(self, text="Refresh", font=('Calibri', 12), width=15, command=self.refresh())
+
+        refresh_button.grid(row=0, column=4, pady=(10, 0), padx=(0, 5))
+
+    def label(self):
         # Loop the labelling of each row to accomodate an unknown number of students
         for row in db.fetch():
             student_name_label = tk.Label(self, text=str(row[2]), fg='blue', font=('Calibri', 12))
@@ -496,18 +530,9 @@ class ClassDetails(tk.Frame):
             student_position_label = tk.Label(self, text=str(row[9]), font=('Calibri', 12))
             student_position_label.grid(row=4+int(row[0]), column=2, sticky=tk.N, padx=10)
 
-        # Navigation
-        button1=ttk.Button(self, text='Student Reports', width=20,
-                          command=lambda: controller.show_frame(StudentDetails))
-        button1.grid(row=0, column=5, pady=(10, 0), padx=(0, 5))
-
-        home_button=ttk.Button(self, text='Back to Home', width=15,
-                          command=lambda: controller.show_frame(StartPage))
-        home_button.grid(row=0, column=6, pady=(10, 0))
 
     def avg_score_female(self):
         score_list_female = []
-
         for row in db.fetch():
             if row[3] == 'Female':
                 score_list_female.append(row[8])
@@ -517,13 +542,19 @@ class ClassDetails(tk.Frame):
 
     def avg_score_male(self):
         score_list_male = []
-
         for row in db.fetch():
             if row[3] == 'Male':
                 score_list_male.append(row[8])
-                self.avg_score_male= sum(score_list_male) /(len(score_list_male))
-                self.avg_score_male = round(self.avg_score_male, 1)
-        return self.avg_score_male
+                self.avg_score_males= sum(score_list_male) /(len(score_list_male))
+                self.avg_score_males = round(self.avg_score_males, 1)
+        return self.avg_score_males
+
+        # need to find a way to refresh either through lambd OR SIME OTHER WAY
+    def refresh(self):
+        self.label()
+        self.avg_score_female()
+        self.avg_score_male()
+
 
 app = SRMSApp()
 app.mainloop()
