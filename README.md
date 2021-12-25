@@ -3,11 +3,18 @@ The application calculates student's total scores from input grades and determin
 (At the moment it's a single user app but that's changing soon to support multiple users).
 
 Additional features currently in development include:
--Attendance tracking 
+
+-Attendance tracking
+
 -Analytics dashboard of student and class performance
 
 
-Tool stack:
+Tools and Libraries:
+
 Python,
+
 Tkinter,
-PostgresSQL
+
+SQLite,
+
+PIL
