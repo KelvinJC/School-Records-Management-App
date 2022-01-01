@@ -31,7 +31,7 @@ class SRMSApp(tk.Tk):
 
         self.frames = {}
 
-        for F in (StartPage, SignUp, Login, TeacherDashboard, AdminDashboard, StudentDetails, ClassDetails):
+        for F in (StartPage, SignUp, Login, TeacherDashboard, AdminDashboard, StudentDetails, ClassDetails, Admissions):
             frame = F(container, self)
 
             self.frames[F] = frame
@@ -308,25 +308,108 @@ class AdminDashboard(tk.Frame):
         my_canvas.create_image(0,0, image=self.img, anchor='nw')
 
         # Add label
-        my_canvas.create_text(170, 120, text = 'REPORTS', font=("Arial black", 30, 'bold italic'), fill='white', anchor= 'nw')
+        my_canvas.create_text(850, 70, text = 'ADMIN DASHBOARD', font=("Arial black", 30, 'bold italic'), fill='white', anchor= 'nw')
         my_canvas.create_text(850, 130, text = 'Welcome Admin!', font=("Arial black", 18, 'bold italic'), fill='white', anchor= 'nw')
 
         # Add buttons
-        button1 = tk.Button(self, text='Student Report Dashboard', font=('Calibri', 12), width=23, command = lambda: controller.show_frame(StudentDetails))
-        button2 = tk.Button(self, text="Class Report Dashboard", font=('Calibri', 12), width=23, command=lambda: controller.show_frame(ClassDetails))
+        button1 = tk.Button(self, text='Admissions', font=('Calibri', 12), width=23, command = lambda: controller.show_frame(Admissions))
+        button2 = tk.Button(self, text="Student Records", font=('Calibri', 12), width=23, command=lambda: controller.show_frame(ClassDetails))
+        button3 = tk.Button(self, text="Instructors", font=('Calibri', 12), width=23, command=lambda: controller.show_frame(ClassDetails))
+        button4 = tk.Button(self, text="Class Supervisors", font=('Calibri', 12), width=23, command=lambda: controller.show_frame(ClassDetails))
+        button5 = tk.Button(self, text="Class Information", font=('Calibri', 12), width=23, command=lambda: controller.show_frame(ClassDetails))
+        button6 = tk.Button(self, text="Announcements", font=('Calibri', 12), width=23, command=lambda: controller.show_frame(ClassDetails))
+        button7 = tk.Button(self, text="Mail", font=('Calibri', 12), width=23, command=lambda: controller.show_frame(ClassDetails))
+        button8 = tk.Button(self, text="Applications", font=('Calibri', 12), width=23, command=lambda: controller.show_frame(ClassDetails))
+        button9 = tk.Button(self, text="Help", font=('Calibri', 12), width=23, command=lambda: controller.show_frame(ClassDetails))
+        button10 = tk.Button(self, text="Tools", font=('Calibri', 12), width=23, command=lambda: controller.show_frame(ClassDetails))
+
         # Create button windows
-        button1_window = my_canvas.create_window(50, 260, anchor= 'nw', window=button1)
-        button2_window = my_canvas.create_window(310, 260, anchor= 'nw', window=button2)
+        button1_window = my_canvas.create_window(30, 50, anchor= 'nw', window=button1)
+        button2_window = my_canvas.create_window(30, 100, anchor= 'nw', window=button2)
+        button3_window = my_canvas.create_window(30, 150, anchor= 'nw', window=button3)
+        button4_window = my_canvas.create_window(30, 200, anchor= 'nw', window=button4)
+        button5_window = my_canvas.create_window(30, 250, anchor= 'nw', window=button5)
+        button6_window = my_canvas.create_window(30, 300, anchor= 'nw', window=button6)
+        button7_window = my_canvas.create_window(30, 350, anchor= 'nw', window=button7)
+        button8_window = my_canvas.create_window(30, 400, anchor= 'nw', window=button8)
+        button9_window = my_canvas.create_window(30, 450, anchor= 'nw', window=button9)
+        button10_window = my_canvas.create_window(30, 500, anchor= 'nw', window=button10)
 
-    def get_name(self):
-        # check if login username entry matches username and if login password entry matches password
-        with open("single user", "r") as file:
-            file_data = file.read()
+class Admissions(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
 
-        file_data = file_data.split('\n')
-        self.name = file_data[0].title()
+        admissions_label = tk.Label(self, text='Admission Form', fg='green', font=('Calibri', 15, 'bold'))
+        admissions_label.grid(row=2, column=0, sticky=tk.W, pady=10, padx=25)
 
-        return self.name
+
+        # First name
+        self.f_name = tk.Entry(self, width=35)
+        self.f_name.grid(row=3, column=1, pady=(25,5), padx=(0,25))
+        f_name_label = tk.Label(self, text='First Name')
+        f_name_label.grid(row=3, column=0, sticky=tk.W, padx=(25,0), pady=(25,5))
+
+        self.l_name = tk.Entry(self, width=35)
+        self.l_name.grid(row=4, column=1, pady=5, padx=(0,25))
+        l_name_label = tk.Label(self, text='Last Name')
+        l_name_label.grid(row=4, column=0, sticky=tk.W, padx=(25,0))
+
+
+        self.student_class = tk.Entry(self, width=35)
+        self.student_class.grid(row=5, column=1, pady=5, padx=(0,25))
+        student_class_label = tk.Label(self, text='Class')
+        student_class_label.grid(row=5, column=0, sticky='W', padx=(25,0))
+
+        self.reg_number = tk.Entry(self, width=35)
+        self.reg_number.grid(row=6, column=1, pady=5, padx=(0,25))
+        reg_number_label = tk.Label(self, text='Registration Number')
+        reg_number_label.grid(row=6, column=0, sticky='W', padx=(25,0))
+
+        self.nationality = tk.Entry(self, width=35)
+        self.nationality.grid(row=7, column=1, pady=5, padx=(0,25))
+        nationality_label = tk.Label(self, text='Nationality')
+        nationality_label.grid(row=7, column=0, sticky='W', padx=(25,0))
+
+
+        self.p1_name = tk.Entry(self, width=35)
+        self.p1_name.grid(row=3, column=3, padx=20, pady=(25,5))
+        p1_name_label = tk.Label(self, text="Father's Name")
+        p1_name_label.grid(row=3, column=2, sticky='W', padx=10, pady=(25,5))
+
+        self.p2_name = tk.Entry(self, width=35)
+        self.p2_name.grid(row=4, column=3, pady=5, padx=20)
+        p2_name_label = tk.Label(self, text="Mother's Name")
+        p2_name_label.grid(row=4, column=2, sticky='W', padx=10)
+
+        self.address = tk.Entry(self, width=35)
+        self.address.grid(row=5, column=3, pady=5, padx=20)
+        address_label = tk.Label(self, text='Address')
+        address_label.grid(row=5, column=2, sticky='W', padx=10)
+
+
+
+
+        self.city = tk.Entry(self, width=35)
+        self.city.grid(row=6, column=3, pady=5, padx=20)
+        city_label = tk.Label(self, text='City')
+        city_label.grid(row=6, column=2, sticky='W', padx=10)
+
+
+        self.state = tk.Entry(self, width=35)
+        self.state.grid(row=7, column=3, pady= 5, padx=20)
+        state_label = tk.Label(self, text='State')
+        state_label.grid(row=7, column=2, sticky='W', padx=10)
+
+
+        self.email = tk.Entry(self, width=35)
+        self.email.grid(row=8, column=3, pady=5, padx=20)
+        email_label = tk.Label(self, text='Email')
+        email_label.grid(row=8, column=2, sticky='W', padx=10)
+
+
+
+
+
 class StudentDetails(tk.Frame):
 
     def __init__(self, parent, controller):
