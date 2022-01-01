@@ -31,7 +31,7 @@ class SRMSApp(tk.Tk):
 
         self.frames = {}
 
-        for F in (StartPage, SignUp, Login, Dashboard, StudentDetails, ClassDetails):
+        for F in (StartPage, SignUp, Login, TeacherDashboard, AdminDashboard, StudentDetails, ClassDetails):
             frame = F(container, self)
 
             self.frames[F] = frame
@@ -199,7 +199,8 @@ class Login(tk.Frame):
 
         # Buttons
         login_button = tk.Button(self, text = 'SIGN IN', font=('Calibri', 12, 'bold'), width=48, height=2,
-                            command= lambda : controller.show_frame(Dashboard) if self.verify_login() == 1 else messagebox.showerror('', 'Login Unsuccessful.'))#self.verify_login)
+                            command= lambda : controller.show_frame(TeacherDashboard) if self.verify_login() == 1 else ((controller.show_frame(AdminDashboard), self.clear_entry()) if self.verify_login() == 2 else messagebox.showerror('', 'Login Unsuccessful.')))
+
         back_to_home_button=ttk.Button(self, text='Back to Home', width=20,
                           command=lambda: controller.show_frame(StartPage))
         sign_up_button=ttk.Button(self, text='Sign Up', width=20,
@@ -219,16 +220,7 @@ class Login(tk.Frame):
 
         file_data = file_data.split('\n')
 
-# I stopped here last night.
-# Remember to see how you can prep for full school records not just for the Computer teacher.
-# Learn dropdown menus for use in account dashboard
-# or cascade to pick subject and class
-
         # Validation
-        if self.temp_login_name.get() == '' or self.temp_login_password.get() == '':
-                messagebox.showerror('', 'All fields are required.')
-                return
-
         if self.temp_login_name.get() == file_data[0]:
             if self.temp_login_password.get() == file_data[1]:
                 self.login_attempt = 1
@@ -239,17 +231,26 @@ class Login(tk.Frame):
                 # clear user's entries from input bar after message popup button is clicked
                 self.clear_entry()
                 return
+        elif self.temp_login_name.get() == file_data[2]:
+            if self.temp_login_password.get() == file_data[3]:
+               self.login_attempt = 2
+               # clear user's entries from input bar after login button is clicked
+               # self.clear_entry()
+            else:
+                messagebox.showerror('Password Error', 'Incorrect password.')
+                # clear user's entries from input bar after message popup button is clicked
+                self.clear_entry()
+                return
         else:
-            messagebox.showerror('Account Error', 'No account found!')
-            # clear user's entries from input bar after message popup button is clicked
-            self.clear_entry()
+            self.login_attempt = 0
+            #messagebox.showerror('Account Error', 'No account found!')
         return self.login_attempt
 
     def clear_entry(self):
         self.username_entry1.delete(0, tk.END)
         self.password_entry1.delete(0, tk.END)
 
-class Dashboard(tk.Frame):
+class TeacherDashboard(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
 
@@ -288,6 +289,44 @@ class Dashboard(tk.Frame):
 
         return self.name
 
+class AdminDashboard(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+
+        # Image import
+        self.img = Image.open("kyo-azuma-x_TJKVU1FJA-unsplash.jpg")
+        self.img = self.img.resize((1348,698))
+
+        # There is the need to specify the master tk instance since ImageTK is a second instance of tkinter
+        self.img = ImageTk.PhotoImage(self.img, master=self)
+
+        # Define canvas
+        my_canvas = tk.Canvas(self, width=1350, height=700)
+        my_canvas.grid(row=0, column = 0)
+
+        # Put the image on the canvas
+        my_canvas.create_image(0,0, image=self.img, anchor='nw')
+
+        # Add label
+        my_canvas.create_text(170, 120, text = 'REPORTS', font=("Arial black", 30, 'bold italic'), fill='white', anchor= 'nw')
+        my_canvas.create_text(850, 130, text = 'Welcome Admin!', font=("Arial black", 18, 'bold italic'), fill='white', anchor= 'nw')
+
+        # Add buttons
+        button1 = tk.Button(self, text='Student Report Dashboard', font=('Calibri', 12), width=23, command = lambda: controller.show_frame(StudentDetails))
+        button2 = tk.Button(self, text="Class Report Dashboard", font=('Calibri', 12), width=23, command=lambda: controller.show_frame(ClassDetails))
+        # Create button windows
+        button1_window = my_canvas.create_window(50, 260, anchor= 'nw', window=button1)
+        button2_window = my_canvas.create_window(310, 260, anchor= 'nw', window=button2)
+
+    def get_name(self):
+        # check if login username entry matches username and if login password entry matches password
+        with open("single user", "r") as file:
+            file_data = file.read()
+
+        file_data = file_data.split('\n')
+        self.name = file_data[0].title()
+
+        return self.name
 class StudentDetails(tk.Frame):
 
     def __init__(self, parent, controller):
