@@ -1,7 +1,7 @@
 # SRMS
 
-#### A GUI application designed to manage high school students' records by interacting with a database.
-#### The application aids instructors by calculating student's total scores from input grades and determines the respective positions of each student in a class.
+### A GUI application designed to manage high school students' records by interacting with a database.
+### The application aids instructors by calculating student's total scores from input grades and determines the respective positions of each student in a class.
 
 
 ### Additional features currently in development include:
